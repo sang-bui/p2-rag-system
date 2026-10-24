@@ -250,6 +250,10 @@ Change one thing and keep everything else the same.
 Write your hypothesis here before you run it, in one sentence with a direction: "I expect X to raise MRR@10 on my corpus because Y."
 The run file for it lives in `runs/own/ablation/`.
 
+Hypothesis (written and committed before the ablation ran):
+
+I expect rerank_abstract to improve nDCG@10 compared with the current rerank system because Claude is currently spending most of its 600-character limit reading citation information rather than the actual abstract. By removing the unnecessary header and giving it more of the abstract while keeping everything else the same, I think it should be better at distinguishing papers that actually answer the query from those that just share similar terminology.
+
 <!-- p2:begin own-ablation -->
 _No ablation runs yet: `uv run p2 run --corpus own --system NAME --ablation` writes one to runs/own/ablation/, then `uv run p2 score` fills this table._
 <!-- p2:end own-ablation -->
