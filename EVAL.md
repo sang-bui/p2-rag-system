@@ -134,7 +134,19 @@ Then read three in-corpus answers that `uv run p2 verify` passed.
 For each one, open the cited chunk and say whether the quote really supports the claim next to it.
 The check proves a quote is a real piece of the chunk and cannot prove that it supports the claim, so this reading is the part only you can do.
 
-TODO: write your answer choices and your three-answer audit.
+I chose `rerank` for the cited-answer stage, even though it required 24 Claude calls instead of the 12 that `hybrid` would have needed, because rerank had performed the best on the 30 CFR practice queries. This also followed what I saw in Lab 13, where answering from `rrf_bge` verified 8 of 8 answers compared with 7 of 8 from BGE alone. I didn't make any changes to `prompts/answer.txt`, so there wasn't a before-and-after prompt comparison to make, but the final results were fairly good: 8 of 8 answerable questions verified [0.676, 1.000], none were incorrectly declined, all 4 unanswerable questions were declined [0.510, 1.000], and all 13 quotes were found in their cited chunks. However, I would be careful about drawing too much from these results, especially since the confidence intervals are still quite wide with only eight answerable and four unanswerable questions.
+
+I used a01, a02, and a07 for the three-answer citation audit. I reviewed the claims, their quoted evidence, and the full cited chunks.
+
+For **a01**, both claims are supported. The cited §50.10 passage explicitly requires MSHA notification immediately and within 15 minutes once the operator knows or should know of a qualifying accident. Subsection (a) identifies a death at the mine as one of those accidents, so the quoted evidence supports both the deadline and the type of accident.
+
+For **a02**, both claims are also supported. Section 75.403 establishes a minimum incombustible content of 80% where rock dust is required, and explicitly increases that requirement by 0.4 percentage points for each 0.1% methane present in a ventilating current. The answer correctly identifies the minimum for the no-methane situation, although the regulation's scope is worth preserving.
+
+For **a07**, both claims are supported. Sections 56.9300(b) and 57.9300(b) specify that berms or guardrails must be at least mid-axle height of the largest self-propelled mobile equipment that usually travels the roadway. The quotations support that requirement in both sections. The full chunks also contain conditions and exceptions concerning when berms are required, but those do not contradict the specific height claims.
+
+Overall, **all six claims across the three audited answers are supported by their cited chunks**. I did not find a case where the quotation merely appeared in the source without supporting the associated claim.
+
+I think this is a useful distinction from the automated verification result. The verifier established that all 13 quoted passages existed in their cited chunks, but this manual audit checked whether the quoted material actually supported the claims. For these three answers, the support was direct, although the full regulatory context was still important for avoiding overly broad interpretations.
 
 ---
 
