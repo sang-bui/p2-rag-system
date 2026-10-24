@@ -41,12 +41,13 @@ def schema(n):
 
 
 class Rerank:
-    def __init__(self, corpus, cfg):
+    def __init__(self, corpus, cfg, first=None, candidates=None):
+        """first and candidates override the [rerank] settings; ablation variants use them."""
         settings = cfg.table("rerank")
         self.corpus = corpus
         self.cfg = cfg
-        self.first = retrievers.build(settings.get("first_stage", "hybrid"), corpus, cfg)
-        self.candidates = settings.get("candidates", 20)
+        self.first = first or retrievers.build(settings.get("first_stage", "hybrid"), corpus, cfg)
+        self.candidates = candidates or settings.get("candidates", 20)
         self.passage_chars = settings.get("passage_chars", 600)
         self.model = cfg.model
         self.chunk_text = corpus.chunk_texts(cfg.chunk_words, cfg.chunk_overlap)
