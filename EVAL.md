@@ -152,6 +152,7 @@ Scores per system on your gold set.
 | dense | 0.542 | 0.734 | 0.542 |
 | hybrid | 0.628 | 0.777 | 0.600 |
 | rerank | 0.663 | 0.879 | 0.687 |
+| ablation/rerank_abstract | 0.642 | 0.860 | 0.673 |
 
 30 judged queries; nDCG uses binary labels; a random ranking of the 345 documents would get recall@10 near 0.029.
 <!-- p2:end own -->
@@ -173,6 +174,9 @@ The same scores per query class.
 | rerank | Recall@10 | 0.847 | 0.417 | 0.725 |
 | rerank | MRR@10 | 1.000 | 0.753 | 0.883 |
 | rerank | nDCG@10 | 0.866 | 0.490 | 0.704 |
+| ablation/rerank_abstract | Recall@10 | 0.844 | 0.377 | 0.704 |
+| ablation/rerank_abstract | MRR@10 | 1.000 | 0.733 | 0.846 |
+| ablation/rerank_abstract | nDCG@10 | 0.873 | 0.456 | 0.689 |
 <!-- p2:end own-classes -->
 
 The same scores for the queries you wrote yourself (`hand`) and the ones a model drafted (`claude`), with the difference between the two groups and its interval.
@@ -193,6 +197,9 @@ Once both groups have queries, the table also says whether `bm25`'s lead over `d
 | rerank | Recall@10 | 0.678 | 0.655 | +0.023 | [-0.230, +0.268] | not distinguishable |
 | rerank | MRR@10 | 0.767 | 0.935 | -0.168 | [-0.427, +0.063] | not distinguishable |
 | rerank | nDCG@10 | 0.639 | 0.711 | -0.071 | [-0.303, +0.157] | not distinguishable |
+| ablation/rerank_abstract | Recall@10 | 0.599 | 0.663 | -0.064 | [-0.350, +0.217] | not distinguishable |
+| ablation/rerank_abstract | MRR@10 | 0.733 | 0.923 | -0.190 | [-0.490, +0.067] | not distinguishable |
+| ablation/rerank_abstract | nDCG@10 | 0.592 | 0.713 | -0.120 | [-0.380, +0.135] | not distinguishable |
 
 The hand and claude queries are different queries, so the interval of hand minus claude comes from resampling the queries within each group (10,000 times), not from pairing them.
 
@@ -232,6 +239,18 @@ Differences between every pair of systems.
 | rerank minus hybrid | Recall@10 | +0.035 | [-0.033, +0.119] | 0.112 | not distinguishable |
 | rerank minus hybrid | MRR@10 | +0.102 | [-0.004, +0.211] | 0.157 | not distinguishable |
 | rerank minus hybrid | nDCG@10 | +0.087 | [+0.025, +0.155] | 0.095 | rerank higher |
+| ablation/rerank_abstract minus bm25 | Recall@10 | +0.094 | [-0.015, +0.221] | 0.175 | not distinguishable |
+| ablation/rerank_abstract minus bm25 | MRR@10 | +0.185 | [+0.068, +0.314] | 0.182 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus bm25 | nDCG@10 | +0.131 | [+0.033, +0.244] | 0.155 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus dense | Recall@10 | +0.100 | [+0.047, +0.157] | 0.079 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus dense | MRR@10 | +0.125 | [+0.006, +0.255] | 0.183 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus dense | nDCG@10 | +0.131 | [+0.072, +0.191] | 0.086 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus hybrid | Recall@10 | +0.014 | [-0.065, +0.105] | 0.124 | not distinguishable |
+| ablation/rerank_abstract minus hybrid | MRR@10 | +0.083 | [-0.021, +0.192] | 0.158 | not distinguishable |
+| ablation/rerank_abstract minus hybrid | nDCG@10 | +0.073 | [+0.009, +0.144] | 0.100 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus rerank | Recall@10 | -0.021 | [-0.069, +0.021] | 0.064 | not distinguishable |
+| ablation/rerank_abstract minus rerank | MRR@10 | -0.019 | [-0.057, +0.009] | 0.048 | not distinguishable |
+| ablation/rerank_abstract minus rerank | nDCG@10 | -0.014 | [-0.047, +0.014] | 0.044 | not distinguishable |
 
 The interval is a paired bootstrap (10,000 resamples of the queries); MDD is the smallest difference this many queries detect 80% of the time.
 <!-- p2:end own-pairs -->
@@ -255,14 +274,37 @@ Hypothesis (written and committed before the ablation ran):
 I expect rerank_abstract to improve nDCG@10 compared with the current rerank system because Claude is currently spending most of its 600-character limit reading citation information rather than the actual abstract. By removing the unnecessary header and giving it more of the abstract while keeping everything else the same, I think it should be better at distinguishing papers that actually answer the query from those that just share similar terminology.
 
 <!-- p2:begin own-ablation -->
-_No ablation runs yet: `uv run p2 run --corpus own --system NAME --ablation` writes one to runs/own/ablation/, then `uv run p2 score` fills this table._
+| Comparison | Metric | Mean difference | 95% interval | MDD | Reading |
+| --- | --- | ---: | ---: | ---: | --- |
+| ablation/rerank_abstract minus bm25 | Recall@10 | +0.094 | [-0.015, +0.221] | 0.175 | not distinguishable |
+| ablation/rerank_abstract minus bm25 | MRR@10 | +0.185 | [+0.068, +0.314] | 0.182 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus bm25 | nDCG@10 | +0.131 | [+0.033, +0.244] | 0.155 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus dense | Recall@10 | +0.100 | [+0.047, +0.157] | 0.079 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus dense | MRR@10 | +0.125 | [+0.006, +0.255] | 0.183 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus dense | nDCG@10 | +0.131 | [+0.072, +0.191] | 0.086 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus hybrid | Recall@10 | +0.014 | [-0.065, +0.105] | 0.124 | not distinguishable |
+| ablation/rerank_abstract minus hybrid | MRR@10 | +0.083 | [-0.021, +0.192] | 0.158 | not distinguishable |
+| ablation/rerank_abstract minus hybrid | nDCG@10 | +0.073 | [+0.009, +0.144] | 0.100 | ablation/rerank_abstract higher |
+| ablation/rerank_abstract minus rerank | Recall@10 | -0.021 | [-0.069, +0.021] | 0.064 | not distinguishable |
+| ablation/rerank_abstract minus rerank | MRR@10 | -0.019 | [-0.057, +0.009] | 0.048 | not distinguishable |
+| ablation/rerank_abstract minus rerank | nDCG@10 | -0.014 | [-0.047, +0.014] | 0.044 | not distinguishable |
+
+The interval is a paired bootstrap (10,000 resamples of the queries); MDD is the smallest difference this many queries detect 80% of the time.
 <!-- p2:end own-ablation -->
 
 The queries your ablation helped and hurt, against the system it varies, by reciprocal rank.
 `p2 score` finds that system from a line such as `BASE = "bm25"` in your variant's file, or else from its name: `bm25_lab` varies `bm25`.
 
 <!-- p2:begin own-ablation-queries -->
-_No ablation runs yet: `uv run p2 run --corpus own --system NAME --ablation` writes one to runs/own/ablation/, then `uv run p2 score` fills this table._
+ablation/rerank_abstract against rerank (BASE = "rerank" in p2/retrievers/rerank_abstract.py): it helped 1 queries, hurt 2 and left 27 unchanged.
+
+| Query | Class | Origin | rerank RR | ablation/rerank_abstract RR | Change | Effect |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| c14 | paraphrase | claude | 0.200 | 0.333 | +0.133 | helped |
+| c19 | mixed | claude | 0.500 | 0.125 | -0.375 | hurt |
+| h06 | paraphrase | hand | 0.333 | 0.000 | -0.333 | hurt |
+
+RR is the reciprocal rank of the first relevant document in the top 10 (0 when none is there), the per-query value behind MRR@10; the queries at the top of each list are the ones to read.
 <!-- p2:end own-ablation-queries -->
 
 What did you change, what happened, and does the interval support the claim you want to make?
@@ -334,6 +376,7 @@ Every trace in traces/ that records a Claude call:
 | Trace | System | Spans | Claude calls | Saved | Input tokens | Output tokens | Seconds | Input per span | Output per span | Seconds per span |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | traces/answers-rerank.jsonl | rerank | 12 | 24 | 4 | 144,785 | 4,308 | 82.5 | 12,065 | 359 | 6.9 |
+| traces/own-own-ablation-rerank_abstract.jsonl | rerank_abstract | 30 | 30 | 2 | 237,326 | 2,730 | 100.3 | 7,911 | 91 | 3.3 |
 | traces/own-own-rerank.jsonl | rerank | 30 | 30 | 27 | 263,041 | 2,730 | 88.7 | 8,768 | 91 | 3.0 |
 | traces/shared-practice-rerank.jsonl | rerank | 20 | 20 | 20 | 154,809 | 1,930 | 59.0 | 7,740 | 96 | 3.0 |
 | traces/shared-test-rerank.jsonl | rerank | 40 | 40 | 40 | 371,296 | 4,458 | 133.1 | 9,282 | 111 | 3.3 |
