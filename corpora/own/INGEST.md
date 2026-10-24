@@ -6,9 +6,9 @@ Running ingest again adds to the table and replaces the "last run" section, and 
 
 ## Summary
 
-- Documents: 346 (the final check needs at least 200)
-- Words: 106,563
-- Estimated tokens (words times 1.4): 149,188 (`p2 check` warns above 800,000 and fails above 1,000,000)
+- Documents: 345 (the final check needs at least 200)
+- Words: 106,262
+- Estimated tokens (words times 1.4): 148,766 (`p2 check` warns above 800,000 and fails above 1,000,000)
 - Flagged documents: 0
 
 ## Documents
@@ -35,7 +35,6 @@ Running ingest again adds to the table and replaces the "last run" section, and 
 | `10-1007-s11069-023-05938-7` | 336 | - | - | - |
 | `10-1007-s11069-024-06711-0` | 229 | - | - | - |
 | `10-1007-s11269-016-1546-9` | 278 | - | - | - |
-| `10-1007-s11269-018-2090-6` | 288 | - | - | - |
 | `10-1007-s11269-024-03793-0` | 285 | - | - | - |
 | `10-1007-s11676-019-01011-x` | 221 | - | - | - |
 | `10-1007-s11676-023-01677-4` | 305 | - | - | - |
