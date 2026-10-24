@@ -13,14 +13,5 @@ NEEDS_CLAUDE = False
 BASE = "dense"
 
 
-class DensePotion(Dense):
-    def __init__(self, corpus, cfg):
-        super(Dense, self).__init__(corpus, cfg)
-        self.model = embed.POTION
-        self.query_prefix = cfg.table("dense").get("query_prefix", "")
-        self.embedder = embed.load(self.model)
-        self.vectors = embed.doc_vectors(self.embedder, [c.text for c in self.chunks], cfg.root)
-
-
 def build(corpus, cfg):
-    return DensePotion(corpus, cfg)
+    return Dense(corpus, cfg, model=embed.POTION)

@@ -20,10 +20,10 @@ NEEDS_CLAUDE = False
 
 
 class Dense(ChunkScorer):
-    def __init__(self, corpus, cfg):
+    def __init__(self, corpus, cfg, model=None):
         super().__init__(corpus, cfg)
         settings = cfg.table("dense")
-        self.model = settings.get("model", embed.BGE)
+        self.model = model or settings.get("model", embed.BGE)
         self.query_prefix = settings.get("query_prefix", "")
         self.embedder = embed.load(self.model)
         self.vectors = embed.doc_vectors(self.embedder, [c.text for c in self.chunks], cfg.root)
