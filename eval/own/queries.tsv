@@ -22,3 +22,13 @@ c17	mixed	drought and land degradation in the Sahel from remote sensing and drou
 c18	mixed	machine learning models for forecasting SPEI drought index values	claude
 c19	mixed	choosing the accumulation time scale for SPI and SPEI	claude
 c20	mixed	projected meteorological drought during growing seasons in Nigeria under climate scenarios	claude
+h01	identifier	How does the choice of calibration period affect SPEI drought severity estimates and long-term trends?	hand
+h02	identifier	What differences arise between online and offline PDSI calculations when evaluating drought in climate model simulations?	hand
+h03	identifier	How do satellite-based vegetation indices such as NDVI and VCI perform in identifying agricultural drought?	hand
+h04	paraphrase	How long does it take for an area to recover from a severe drought, and what factors can slow that recovery?	hand
+h05	paraphrase	When extreme heat and a lack of rainfall occur together, does that make the resulting damage worse than either condition alone?	hand
+h06	paraphrase	How do prolonged periods of low rainfall affect the amount of water stored in reservoirs?	hand
+h07	mixed	How does drought influence vegetation productivity as measured by NPP and GPP, and are some ecosystems more sensitive than others?	hand
+h08	mixed	How do large-scale climate patterns such as the NAO and PDO influence the occurrence and severity of drought in different regions?	hand
+h09	mixed	Under future SSP climate scenarios, how is the number of people exposed to severe drought expected to change?	hand
+h10	mixed	How well do SPI and SPEI correspond to reported drought impacts, rather than simply identifying meteorological anomalies?	hand
