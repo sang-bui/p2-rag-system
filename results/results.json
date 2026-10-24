@@ -852,24 +852,34 @@
           "seconds": 82.5132
         },
         {
-          "file": "traces/shared-practice-rerank.jsonl",
+          "file": "traces/own-own-rerank.jsonl",
           "system": "rerank",
           "spans": 20,
           "calls": 20,
           "saved": 2,
+          "input_tokens": 172080,
+          "output_tokens": 1820,
+          "seconds": 58.7019
+        },
+        {
+          "file": "traces/shared-practice-rerank.jsonl",
+          "system": "rerank",
+          "spans": 20,
+          "calls": 20,
+          "saved": 20,
           "input_tokens": 154809,
           "output_tokens": 1930,
-          "seconds": 58.5756
+          "seconds": 59.0945
         },
         {
           "file": "traces/shared-test-rerank.jsonl",
           "system": "rerank",
           "spans": 40,
           "calls": 40,
-          "saved": 0,
+          "saved": 40,
           "input_tokens": 371296,
           "output_tokens": 4458,
-          "seconds": 132.6228
+          "seconds": 133.0705
         }
       ],
       "run_pairs": [
@@ -886,7 +896,7 @@
           ],
           "reading": "not distinguishable",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -901,7 +911,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -916,7 +926,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -931,7 +941,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -946,7 +956,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -961,7 +971,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -976,7 +986,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -991,7 +1001,7 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         },
         {
           "set": "shared/practice",
@@ -1006,46 +1016,64 @@
           ],
           "reading": "rerank higher",
           "input_saved_per_query": 7740.45,
-          "seconds_saved_per_query": 2.92878
+          "seconds_saved_per_query": 2.954725
         }
       ],
       "answers_pairs": [],
       "local": [
         {
+          "file": "traces/retrieval/own-own-bm25.jsonl",
+          "system": "bm25",
+          "spans": 20,
+          "seconds": 0.0077
+        },
+        {
+          "file": "traces/retrieval/own-own-dense.jsonl",
+          "system": "dense",
+          "spans": 20,
+          "seconds": 0.1234
+        },
+        {
+          "file": "traces/retrieval/own-own-hybrid.jsonl",
+          "system": "hybrid",
+          "spans": 20,
+          "seconds": 0.1313
+        },
+        {
           "file": "traces/retrieval/shared-practice-bm25.jsonl",
           "system": "bm25",
           "spans": 20,
-          "seconds": 0.0317
+          "seconds": 0.035
         },
         {
           "file": "traces/retrieval/shared-practice-dense.jsonl",
           "system": "dense",
           "spans": 20,
-          "seconds": 0.523
+          "seconds": 0.9722
         },
         {
           "file": "traces/retrieval/shared-practice-hybrid.jsonl",
           "system": "hybrid",
           "spans": 20,
-          "seconds": 0.6993
+          "seconds": 0.8248
         },
         {
           "file": "traces/retrieval/shared-test-bm25.jsonl",
           "system": "bm25",
           "spans": 40,
-          "seconds": 0.0662
+          "seconds": 0.0689
         },
         {
           "file": "traces/retrieval/shared-test-dense.jsonl",
           "system": "dense",
           "spans": 40,
-          "seconds": 0.9175
+          "seconds": 0.9744
         },
         {
           "file": "traces/retrieval/shared-test-hybrid.jsonl",
           "system": "hybrid",
           "spans": 40,
-          "seconds": 1.3738
+          "seconds": 1.426
         }
       ]
     },

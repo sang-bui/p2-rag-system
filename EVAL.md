@@ -262,8 +262,9 @@ Every trace in traces/ that records a Claude call:
 | Trace | System | Spans | Claude calls | Saved | Input tokens | Output tokens | Seconds | Input per span | Output per span | Seconds per span |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | traces/answers-rerank.jsonl | rerank | 12 | 24 | 4 | 144,785 | 4,308 | 82.5 | 12,065 | 359 | 6.9 |
-| traces/shared-practice-rerank.jsonl | rerank | 20 | 20 | 2 | 154,809 | 1,930 | 58.6 | 7,740 | 96 | 2.9 |
-| traces/shared-test-rerank.jsonl | rerank | 40 | 40 | 0 | 371,296 | 4,458 | 132.6 | 9,282 | 111 | 3.3 |
+| traces/own-own-rerank.jsonl | rerank | 20 | 20 | 2 | 172,080 | 1,820 | 58.7 | 8,604 | 91 | 2.9 |
+| traces/shared-practice-rerank.jsonl | rerank | 20 | 20 | 20 | 154,809 | 1,930 | 59.1 | 7,740 | 96 | 3.0 |
+| traces/shared-test-rerank.jsonl | rerank | 40 | 40 | 40 | 371,296 | 4,458 | 133.1 | 9,282 | 111 | 3.3 |
 
 A span is one query of a run, one question of an answers file, or one claim of a judged file. A saved reply costs nothing now, so it counts the tokens and the seconds of the call that made it.
 
@@ -271,9 +272,9 @@ Every pair of systems on the same queries where at least one calls Claude, the o
 
 | Cheaper minus dearer | Queries | MRR@10 difference | 95% interval | Input tokens saved per query | Seconds saved per query | Reading |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| shared practice: bm25 minus rerank | 20 | -0.293 | [-0.533, -0.043] | 7,740 | 2.9 | rerank higher |
-| shared practice: dense minus rerank | 20 | -0.237 | [-0.408, -0.083] | 7,740 | 2.9 | rerank higher |
-| shared practice: hybrid minus rerank | 20 | -0.329 | [-0.504, -0.164] | 7,740 | 2.9 | rerank higher |
+| shared practice: bm25 minus rerank | 20 | -0.293 | [-0.533, -0.043] | 7,740 | 3.0 | rerank higher |
+| shared practice: dense minus rerank | 20 | -0.237 | [-0.408, -0.083] | 7,740 | 3.0 | rerank higher |
+| shared practice: hybrid minus rerank | 20 | -0.329 | [-0.504, -0.164] | 7,740 | 3.0 | rerank higher |
 
 The difference is the cheaper system's score minus the dearer one's, with its paired interval; the savings count Claude calls only, so a system that makes none saves all of the other's.
 
@@ -281,12 +282,15 @@ Systems that do not call Claude, from traces/retrieval/ on the machine that last
 
 | Trace | System | Queries | Seconds | Milliseconds per query |
 | --- | --- | ---: | ---: | ---: |
-| traces/retrieval/shared-practice-bm25.jsonl | bm25 | 20 | 0.03 | 1.6 |
-| traces/retrieval/shared-practice-dense.jsonl | dense | 20 | 0.52 | 26.1 |
-| traces/retrieval/shared-practice-hybrid.jsonl | hybrid | 20 | 0.70 | 35.0 |
+| traces/retrieval/own-own-bm25.jsonl | bm25 | 20 | 0.01 | 0.4 |
+| traces/retrieval/own-own-dense.jsonl | dense | 20 | 0.12 | 6.2 |
+| traces/retrieval/own-own-hybrid.jsonl | hybrid | 20 | 0.13 | 6.6 |
+| traces/retrieval/shared-practice-bm25.jsonl | bm25 | 20 | 0.04 | 1.8 |
+| traces/retrieval/shared-practice-dense.jsonl | dense | 20 | 0.97 | 48.6 |
+| traces/retrieval/shared-practice-hybrid.jsonl | hybrid | 20 | 0.82 | 41.2 |
 | traces/retrieval/shared-test-bm25.jsonl | bm25 | 40 | 0.07 | 1.7 |
-| traces/retrieval/shared-test-dense.jsonl | dense | 40 | 0.92 | 22.9 |
-| traces/retrieval/shared-test-hybrid.jsonl | hybrid | 40 | 1.37 | 34.3 |
+| traces/retrieval/shared-test-dense.jsonl | dense | 40 | 0.97 | 24.4 |
+| traces/retrieval/shared-test-hybrid.jsonl | hybrid | 40 | 1.43 | 35.6 |
 <!-- p2:end stretch-cost -->
 
 ### The grep agent (option 5)
