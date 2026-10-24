@@ -2,23 +2,3 @@
 # origin is hand when you wrote the query yourself and claude when a model drafted it; at least 10 must be hand.
 # class is a word you choose, for example identifier, paraphrase or mixed as in the shared sets; scores are reported per class.
 # Lines that start with # are comments, so delete these lines or keep them, as you like.
-c01	identifier	Mountain Pass rare earth mine production	claude
-c02	identifier	Stillwater Complex chromium resources in Montana	claude
-c03	identifier	Red Dog Mine zinc production in Alaska	claude
-c04	identifier	Bingham Canyon copper mine	claude
-c05	identifier	Searles Valley soda ash production in California	claude
-c06	identifier	Great Salt Lake brine magnesium and potash	claude
-c07	identifier	GaAs and GaN wafer imports	claude
-c08	paraphrase	What gas has no substitute for cooling things to near absolute zero?	claude
-c09	paraphrase	Which mineral used in EV batteries is mostly mined in central Africa and partly recovered from scrap?	claude
-c10	paraphrase	What lightweight metal is extracted from salty lake water in Utah?	claude
-c11	paraphrase	Which element is a byproduct of copper refining and is used in thin-film solar panels?	claude
-c12	paraphrase	What material in pencils and battery anodes comes in flake and synthetic forms?	claude
-c13	paraphrase	Which minerals are ground up and used to polish or cut hard surfaces?	claude
-c14	paraphrase	What metal from bauxite ore is used in beverage cans and aircraft?	claude
-c15	mixed	China export controls on gallium and germanium in 2023	claude
-c16	mixed	China export licenses for antimony in 2024	claude
-c17	mixed	How much of US cobalt consumption came from recycled scrap in 2024?	claude
-c18	mixed	Global rare earth mine production estimate for 2023	claude
-c19	mixed	Lithium end uses share for batteries, ceramics and glass	claude
-c20	mixed	Germanium concentrates from Alaska shipped to a refinery in Canada	claude
