@@ -405,6 +405,8 @@ Then sort the failures by cause, for example a vocabulary mismatch, near-duplica
 
 Most of the weaker rerank queries had already run into problems before Claude could evaluate the papers. The relevant documents simply weren't making it into the candidate pool. I went through ten of the weaker queries and compared what rerank returned against the papers I had judged relevant. There were a few different patterns, especially with plain-language questions, where the terminology in the query was quite different from what the papers actually used.
 
+I chose these ten queries because they showed different problems with the retrieval system, whether that was relevant papers missing from the candidate pool or papers being ranked highly without actually answering the question.
+
 | qid | what the best system returned | what was relevant | cause | what you would try |
 |---|---|---|---|---|
 | c08 | The relevant evaporative-demand formulation paper at rank 1. | Nine of ten relevant papers never reached the top 20, including several SPEI/PET comparison studies. | Vocabulary mismatch and candidate generation. The query described water being pulled from the land, while the relevant papers used terminology like PET and evapotranspiration. Potential evapotranspiration (PET) estimates how much water could leave the land through evaporation and plant transpiration when sufficient water is available. | Expand the query using related scientific terminology before retrieval, or combine the original query with a technical version. |
