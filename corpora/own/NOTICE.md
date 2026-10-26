@@ -18,4 +18,7 @@ The abstract text was rebuilt from OpenAlex's word index of the abstract, so the
 
 ## Papers that were left out
 
-Three IEEE papers were removed after the license tool flagged the publisher name in their header, and one Springer paper was removed because Crossref lists its CC BY license only for text and data mining and the publisher's page could not be read to confirm the license.
+The fetch script kept 349 papers, and four were removed before any query or judgment named them, which leaves 345.
+
+- Three IEEE papers were removed before the corpus was first committed, so they never appear in this repository's history. `p2 license` flagged them because of the "Published in IEEE ..." line that the fetch script writes into each header, and Crossref lists CC BY 4.0 for all three, but the flags were not reviewed against the publisher's pages, so they were left out: `10-1109-access-2021-3074305`, `10-1109-jstars-2023-3237380` and `10-1109-jstars-2025-3623313`.
+- One Springer paper, `10-1007-s11269-018-2090-6`, was removed in a later commit because Crossref lists its CC BY license only for text and data mining and the publisher's page could not be read to confirm the license.
