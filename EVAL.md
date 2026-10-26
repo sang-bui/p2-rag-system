@@ -154,8 +154,6 @@ For a07, both claims are supported. Sections 56.9300(b) and 57.9300(b) specify t
 
 All six claims I checked across the three audited answers were directly supported by their cited chunks.
 
-The automated verifier confirmed that all 13 quotations existed in their cited chunks. My manual audit went further by checking whether the quoted passages actually supported the claims beside them. For these three answers, the support was direct, although the full regulatory context was still important for avoiding overly broad interpretations.
-
 ---
 
 ## 3. Stage 2 - your corpus and your gold set
