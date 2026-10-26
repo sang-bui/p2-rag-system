@@ -25,13 +25,13 @@ The minimum detectable difference is the smallest gap this many queries could re
 
 For each of `dense`, `hybrid` and `rerank`, one or two sentences: the embedding model, how documents were chunked, what was fused and how, how many candidates the reranker saw, and anything you changed from the 12 and 13 lab code.
 
-All three retrieval systems use 300-word document chunks with 50 words of overlap, and each document is scored using its highest-scoring chunk. I chose the overall design based on what I had learned from Labs 12 and 13, including BGE embeddings, combining BM25 and dense retrieval through RRF, and reranking hybrid's top 20 results. Claude Code then took those decisions and adapted the implementations for P2, including the retriever classes and the evaluation pipeline.
+All three systems used 300-word chunks with 50 words of overlap and scored documents using their highest-scoring chunk. I selected the approaches based on Labs 12 and 13, while Claude Code adapted and implemented them and the evaluation pipeline for P2.
 
-For dense retrieval, I kept bge-small-en-v1.5 with normalized embeddings, cosine similarity, and no query prefix. This follows the original BGE setup from Lab 12. I based this choice partly on my Lab 13 results, where rrf_bge achieved an MRR of 0.83 compared with 0.76 for rrf_potion. Unlike Lab 12, which embedded entire articles, the P2 implementation embeds individual document chunks.
+For dense, I kept bge-small-en-v1.5 with normalized embeddings, cosine similarity, and no query prefix, scoring document chunks rather than whole articles as in Lab 12. My Lab 13 results also influenced this choice, since rrf_bge achieved an MRR of 0.83 compared with 0.76 for rrf_potion.
 
-For hybrid, I decided to keep the equal-weight reciprocal rank fusion approach from Lab 13, using k = 60. Each document receives a score from adding its 1 / (60 + rank) contributions from BM25 and dense retrieval. Like Lab 13, this uses their complete document rankings, with the additional support for chunk-level fusion in P2 so the answering system can retrieve relevant passages.
+For hybrid, I used equal-weight reciprocal rank fusion of BM25 and dense, with k = 60 and each document receiving the sum of its 1 / (60 + rank) contributions. Like Lab 13, it combines the complete document rankings, but P2 also supports chunk-level fusion when retrieving passages for answers.
 
-I kept Claude Sonnet's listwise reranking approach from Lab 13, which takes hybrid's first 20 candidates and reorders them using passages limited to 600 characters. Anything beyond those twenty keeps its original hybrid ranking. Claude also adapted the implementation for P2. This included changing the prompt from a help center to a document collection, restricting the returned ranking positions to 1–20, supporting chunk-based answering, and using p2.claude.call to save responses and traces.
+For rerank, Claude Sonnet reorders hybrid's top 20 candidates using passages limited to 600 characters, while everything below those candidates keeps its original hybrid ranking. Claude Code adapted the prompt from help-center content to a document collection, restricted the returned ranking positions to 1–20, supported chunk-based answering, and saved responses and traces through p2.claude.call.
 
 ### Practice queries (20)
 
@@ -321,13 +321,11 @@ The paired confidence intervals gave me a somewhat different picture than simply
 
 The remaining comparisons were also not distinguishable. Hybrid was ahead of dense by 0.043, while dense was ahead of BM25 by 0.059, but neither difference was large enough relative to the uncertainty in the estimates. The minimum detectable differences were approximately 0.157 for rerank versus hybrid, 0.145 for hybrid versus dense, and 0.192 for dense versus BM25. With only 30 queries, I don't think a higher MRR@10 by itself is enough to say that one system performs better. The differences may be real, but this evaluation doesn't provide enough evidence to separate those systems reliably.
 
-The other evaluation metrics made the results a little less straightforward. Rerank improved nDCG@10 over hybrid by 0.087, with a confidence interval of [+0.025, +0.155], which excludes zero. Recall@10 told a different story, with an improvement of only 0.035 that wasn't statistically distinguishable. This suggests rerank was doing more to improve where relevant papers appeared in the ranking than to substantially increase how many reached the top ten. This connects to the candidate-generation limitation discussed in Section 6, where I examine why some relevant documents never reached the reranker in the first place.
+The other evaluation metrics made the results a little less straightforward. Rerank improved nDCG@10 over hybrid by 0.087, with a confidence interval of [+0.025, +0.155], which excludes zero. Recall@10 told a different story, with an improvement of only 0.035 that wasn't statistically distinguishable. This suggests rerank was doing more to improve where relevant papers appeared in the ranking than to substantially increase how many reached the top ten.
 
 I also compared the results between the hand and claude query groups. MRR@10 and nDCG@10 were lower for all four systems on the hand-origin queries, although none of those group differences were statistically distinguishable. Rerank was the one exception for Recall@10, where it actually performed slightly better on the hand-origin queries, at 0.678 compared with 0.655 for the Claude-origin queries. For rerank, MRR@10 decreased from 0.935 on the 20 Claude-origin queries to 0.767 on the 10 hand-origin queries. The hand queries also had less content-word overlap with their best relevant documents, averaging 0.50 compared with 0.72 for the Claude queries. The way the questions were written might have made them harder to retrieve, but these results alone aren't enough for me to say that was the cause.
 
 Unlike the paired system comparisons, the hand and Claude groups contained different queries, so their confidence intervals were calculated by resampling each group rather than pairing the same questions. There were also only ten hand queries, making the estimates relatively uncertain. For the BM25-versus-dense comparison, the difference between the two query-origin groups was only +0.023 in MRR@10, calculated as Claude minus hand, with a confidence interval of [−0.227, +0.305]. Since this includes zero, there isn't enough evidence to conclude that the two retrieval approaches behaved differently depending on query origin.
-
-As I expected, rerank could not recover relevant papers that hybrid never passed to it. I still see this candidate-generation limitation as one of the bigger problems I would want to address.
 
 ---
 
@@ -391,7 +389,7 @@ What I hadn't accounted for was where the important evidence appeared in each do
 
 There is another limitation here, which is that both versions were only run once. Claude can also produce different rankings across runs, so I can't completely rule out normal run-to-run variation as another explanation. We did not repeat the experiment enough to separate those effects.
 
-The ablation left me with a fairly simple conclusion: giving Claude more abstract text, by itself, didn't improve the rankings in this experiment. My hypothesis was not supported, but I wouldn't interpret that as proof that the original citation header was useful either. One possible explanation is that the relevant evidence was still being truncated, even after removing the header. Additionally, for queries like c19 and c14, most of the relevant papers never reached the reranker in the first place. This means that improving how Claude reads a passage is only one part of the problem. The system also needs to retrieve the correct papers and expose the portions that actually answer the question.
+The ablation left me with a fairly simple conclusion: giving Claude more abstract text, by itself, didn't improve the rankings in this experiment. My hypothesis was not supported, but I wouldn't interpret that as proof that the original citation header was useful either. One possible explanation is that the relevant evidence was still being truncated, even after removing the header.
 
 If I were to continue testing this, I would be interested in whether selecting more relevant passages from each abstract, rather than simply taking the first 600 characters, would make a larger difference. I would also want to repeat the runs to better understand how much variation comes from Claude itself.
 
@@ -443,7 +441,7 @@ Did the winner change between the shared corpus and yours?
 Why, or why not: what is different about the two collections (document length, vocabulary, identifiers, near-duplicates, how the queries were written), and which of your explanations did you test and which are guesses?
 Say what 20 queries on one side and your gold-set size on the other cannot support.
 
-The winning system stayed the same when I moved from the shared 30 CFR corpus to my own drought collection. Rerank performed the best on both, achieving an MRR@10 of 0.800 on 30 CFR and 0.879 on my corpus. What I found more interesting, though, was how the other systems performed. Hybrid was actually the worst-performing system on 30 CFR, with an MRR@10 of 0.471, but moved to second place on my corpus with 0.777. Every system achieved a higher MRR@10 on my corpus, although I wouldn't take that as proof that drought research was easier to search. The documents, questions, and relevance judgments were all different.
+Rerank remained the top system on both corpora, but hybrid behaved differently. It was last on 30 CFR and second on my drought corpus. All four systems achieved higher MRR@10 on my corpus, although the documents, queries, and relevance judgments were different, so I wouldn't interpret that as evidence that drought research was easier to search.
 
 The MRR@10 values below are copied from the existing evaluation results.
 
@@ -454,7 +452,7 @@ The MRR@10 values below are copied from the existing evaluation results.
 | Hybrid | 0.471 | 0.777 |
 | Rerank | 0.800 | 0.879 |
 
-Another difference was how much rerank improved over hybrid. On 30 CFR, the improvement was 0.329, with a 95% confidence interval of [+0.164, +0.504], which excluded zero. On my corpus, that difference decreased to 0.102, with an interval of [−0.004, +0.211]. So even though rerank still had the highest score, its advantage over hybrid was no longer statistically distinguishable. Hybrid also performed distinguishably better than BM25 in MRR@10 on my corpus, as discussed in Section 4, which was quite different from Stage 1.
+Rerank's MRR@10 advantage over hybrid decreased from 0.329 [+0.164, +0.504] on 30 CFR to 0.102 [−0.004, +0.211] on my corpus. The first interval excluded zero, while the second included it, so the advantage was only statistically distinguishable on 30 CFR.
 
 I think some of this difference could come from the collections themselves. The 30 CFR corpus had 2,484 relatively short legal sections, with a median length of 70 words, and many regulations repeated similar requirements across different types of mines. My corpus was smaller, with 345 scientific abstracts and a median length of 323 words. The drought papers also used quite a bit of specialized terminology. Of the 345 papers, 286 contained SPI, SPEI, or PDSI somewhere in their document text, including variants such as scPDSI and SPEI-3. The queries were also different in length. The 30 CFR practice queries had a median of 14.5 words, compared with 10.5 for the Claude-origin queries and 17.5 for the hand-origin ones. All of these differences could influence which documents the systems retrieve, although I did not isolate their individual effects.
 
