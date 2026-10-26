@@ -1,5 +1,5 @@
 # Gold-set spot check, judged by Sang Bui from each document's complete indexed abstract, with the original labels hidden.
-# 20 pairs drawn with seed 20261026: 10 of the 155 pairs in qrels.txt and 10 of the 679 pooled candidates not in it, shuffled.
+# 20 pairs drawn by scripts/spot_check.py with seed 20261026 from eval/own/spot-check-pool.tsv: 10 of the 155 pairs in qrels.txt and 10 of the 679 pool pairs not in it, shuffled.
 # Columns: n, qid, docid, original_label (1 = in qrels.txt), spot_check_verdict, reason. qrels.txt was not changed.
 n	qid	docid	original_label	spot_check_verdict	reason
 1	c02	10-1016-j-ejrh-2024-101761	1	1	This directly compares Thornthwaite and Penman–Monteith when calculating SPEI, including how their results differ at different timescales. That's the comparison c02 is asking about.
