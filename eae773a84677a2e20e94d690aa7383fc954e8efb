@@ -1,0 +1,15 @@
+Provenance clarification from Sang Bui, supplied in this session
+
+Sang's own words:
+
+"I personally read them myself, skimmed through them, sat down, and wrote them, and gave it to the claude window to review for accuracy, grammar, and to add it to the prose."
+
+This clarification describes Sang personally reading/skimming the indexed abstracts, making the relevance decisions, composing the report text, and asking Claude to review accuracy and grammar and insert the text.
+
+The earlier statements about an existing full-abstract reading limitation were based on the wording then present in EVAL.md. Sang has clarified that workflow directly. Those statements should not be treated as an independently verified finding that Sang did not read the abstracts or write the final prose. The conflicting two sentences have been removed from EVAL.md; the remaining student-authored wording is retained.
+
+The AI-assisted copyedit description records editing assistance. It does not by itself establish that Claude composed Sang's final replacements or that the assistance was unauthorized. Earlier notes about agent-written drafts describe their historical stage; they do not override the recorded subsequent student replacements. Existing historical contribution credits remain intact.
+
+The private complete-abstract packet was an optional comprehensive audit. Blank fields in it do not establish that earlier personal reading was absent, and no new review is being claimed here.
+
+This correction makes no claim of an exhaustive reading of all 345 corpus documents. Queries, relevance labels, scores, generated tables, historical predictions, and preregistration are unchanged. The only report change deletes the two sentences that conflicted with Sang's clarification.
